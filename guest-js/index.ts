@@ -1,9 +1,12 @@
-import { invoke } from '@tauri-apps/api/core'
+import { invoke } from "@tauri-apps/api/core";
 
-export async function ping(value: string): Promise<string | null> {
-  return await invoke<{value?: string}>('plugin:vault|ping', {
-    payload: {
-      value,
-    },
-  }).then((r) => (r.value ? r.value : null));
+export type VaultKey = string;
+
+export interface VaultRequest {
+  key: VaultKey;
+  value: string;
 }
+
+export async function store(payload: VaultRequest) {}
+export async function retrieve(key: VaultKey) {}
+export async function remove(key: VaultKey) {}

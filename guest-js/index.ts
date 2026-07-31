@@ -1,10 +1,10 @@
-import { invoke } from "@tauri-apps/api/core";
+import { invoke } from '@tauri-apps/api/core'
 
-export type VaultKey = string;
+export type VaultKey = string
 
 export interface VaultRequest {
-  key: VaultKey;
-  value: string;
+  key: VaultKey
+  value: string
 }
 
 export async function store(payload: VaultRequest) {}

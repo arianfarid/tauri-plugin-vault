@@ -10,22 +10,22 @@ export default {
   output: [
     {
       file: pkg.exports.import,
-      format: 'esm'
+      format: 'esm',
     },
     {
       file: pkg.exports.require,
-      format: 'cjs'
-    }
+      format: 'cjs',
+    },
   ],
   plugins: [
     typescript({
       declaration: true,
-      declarationDir: dirname(pkg.exports.import)
-    })
+      declarationDir: dirname(pkg.exports.import),
+    }),
   ],
   external: [
     /^@tauri-apps\/api/,
     ...Object.keys(pkg.dependencies || {}),
-    ...Object.keys(pkg.peerDependencies || {})
-  ]
+    ...Object.keys(pkg.peerDependencies || {}),
+  ],
 }

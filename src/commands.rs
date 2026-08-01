@@ -5,7 +5,7 @@ use crate::Result;
 use crate::VaultExt;
 
 #[command]
-pub(crate) async fn set<R: Runtime>(app: AppHandle<R>, payload: SetReqest) -> Result<()> {
+pub(crate) async fn set<R: Runtime>(app: AppHandle<R>, payload: SetRequest) -> Result<()> {
   app.vault().set(payload)
 }
 

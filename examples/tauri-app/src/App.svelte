@@ -1,54 +1,94 @@
 <script>
-  import Greet from './lib/Greet.svelte'
-  import { ping } from 'tauri-plugin-vault-api'
+  import { set, get, remove } from 'tauri-plugin-vault-api'
 
-	let response = $state('')
+  let setKey = $state('')
+  let setValue = $state('')
+  let setMsg = $state('')
 
-	function updateResponse(returnValue) {
-		response += `[${new Date().toLocaleTimeString()}] ` + (typeof returnValue === 'string' ? returnValue : JSON.stringify(returnValue)) + '<br>'
-	}
+  let getKey = $state('')
+  let getValue = $state('')
 
-	function _ping() {
-		ping("Pong!").then(updateResponse).catch(updateResponse)
-	}
+  let removeKey = $state('')
+  let removeMsg = $state('')
+
+  async function onSet() {
+    try {
+      await set({ key: setKey, value: setValue })
+      setMsg = `Stored "${setKey}"`
+    } catch (e) {
+      setMsg = `Error: ${e}`
+    }
+  }
+
+  async function onGet() {
+    try {
+      const v = await get(getKey)
+      getValue = v === null ? '(not found)' : v
+    } catch (e) {
+      getValue = `Error: ${e}`
+    }
+  }
+
+  async function onRemove() {
+    try {
+      await remove(removeKey)
+      removeMsg = `Removed "${removeKey}"`
+    } catch (e) {
+      removeMsg = `Error: ${e}`
+    }
+  }
 </script>
 
 <main class="container">
-  <h1>Welcome to Tauri!</h1>
+  <h1>Vault</h1>
 
   <div class="row">
-    <a href="https://vite.dev" target="_blank">
-      <img src="/vite.svg" class="logo vite" alt="Vite Logo" />
-    </a>
-    <a href="https://tauri.app" target="_blank">
-      <img src="/tauri.svg" class="logo tauri" alt="Tauri Logo" />
-    </a>
-    <a href="https://svelte.dev" target="_blank">
-      <img src="/svelte.svg" class="logo svelte" alt="Svelte Logo" />
-    </a>
+    <input placeholder="key" bind:value={setKey} />
+    <input placeholder="value" bind:value={setValue} />
+    <button onclick={onSet}>Set</button>
+    <span>{setMsg}</span>
   </div>
-
-  <p>
-    Click on the Tauri, Vite, and Svelte logos to learn more.
-  </p>
 
   <div class="row">
-    <Greet />
+    <input placeholder="key" bind:value={getKey} />
+    <button onclick={onGet}>Get</button>
+    <span>{getValue}</span>
   </div>
 
-  <div>
-    <button onclick="{_ping}">Ping</button>
-    <div>{@html response}</div>
+  <div class="row">
+    <input placeholder="key" bind:value={removeKey} />
+    <button onclick={onRemove}>Remove</button>
+    <span>{removeMsg}</span>
   </div>
-
 </main>
 
 <style>
-  .logo.vite:hover {
-    filter: drop-shadow(0 0 2em #747bff);
+  .container {
+    padding: 16px;
+    padding-top: 8vh;
+    gap: 16px;
+    text-align: left;
   }
 
-  .logo.svelte:hover {
-    filter: drop-shadow(0 0 2em #ff3e00);
+  .row {
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+
+  .row input {
+    flex: 1 1 120px;
+    min-width: 0;
+  }
+
+  .row button {
+    flex: 0 0 auto;
+  }
+
+  .row span {
+    flex-basis: 100%;
+    color: #646cff;
   }
 </style>

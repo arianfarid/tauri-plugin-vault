@@ -1,3 +1,5 @@
+#![cfg(mobile)]
+
 use tauri::{
   plugin::{Builder, TauriPlugin},
   Manager, Runtime,
@@ -5,20 +7,15 @@ use tauri::{
 
 pub use models::*;
 
-#[cfg(desktop)]
-mod desktop;
 #[cfg(mobile)]
-mod mobile;
-
 mod commands;
 mod error;
+#[cfg(mobile)]
+mod mobile;
 mod models;
 
 pub use error::{Error, Result};
 
-#[cfg(desktop)]
-use desktop::Vault;
-#[cfg(mobile)]
 use mobile::Vault;
 
 /// Extensions to [`tauri::App`], [`tauri::AppHandle`] and [`tauri::Window`] to access the vault APIs.
@@ -35,13 +32,17 @@ impl<R: Runtime, T: Manager<R>> crate::VaultExt<R> for T {
 /// Initializes the plugin.
 pub fn init<R: Runtime>() -> TauriPlugin<R> {
   Builder::new("vault")
-    .invoke_handler(tauri::generate_handler![commands::ping])
+    .invoke_handler(tauri::generate_handler![
+      commands::store,
+      commands::retrieve,
+      commands::remove
+    ])
     .setup(|app, api| {
       #[cfg(mobile)]
-      let vault = mobile::init(app, api)?;
-      #[cfg(desktop)]
-      let vault = desktop::init(app, api)?;
-      app.manage(vault);
+      {
+        let vault = mobile::init(app, api)?;
+        app.manage(vault);
+      }
       Ok(())
     })
     .build()

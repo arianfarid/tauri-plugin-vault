@@ -3,13 +3,14 @@ use serde::{Deserialize, Serialize};
 #[derive(Debug, Clone, Default, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct SetRequest {
-  pub key: Option<String>,
+  pub key: String,
+  pub value: String,
 }
 
 #[derive(Debug, Clone, Default, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct GetRequest {
-  pub key: Option<String>,
+  pub key: String,
 }
 
 #[derive(Debug, Clone, Default, Deserialize, Serialize)]
@@ -21,5 +22,5 @@ pub struct GetResponse {
 #[derive(Debug, Clone, Default, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct RemoveRequest {
-  pub value: Option<String>,
+  pub key: String,
 }

@@ -33,8 +33,8 @@ impl<R: Runtime, T: Manager<R>> crate::VaultExt<R> for T {
 pub fn init<R: Runtime>() -> TauriPlugin<R> {
   Builder::new("vault")
     .invoke_handler(tauri::generate_handler![
-      commands::store,
-      commands::retrieve,
+      commands::set,
+      commands::get,
       commands::remove
     ])
     .setup(|app, api| {

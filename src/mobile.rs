@@ -25,17 +25,11 @@ pub fn init<R: Runtime, C: DeserializeOwned>(
 pub struct Vault<R: Runtime>(PluginHandle<R>);
 
 impl<R: Runtime> Vault<R> {
-  pub fn store(&self, payload: StoreRequest) -> crate::Result<()> {
-    self
-      .0
-      .run_mobile_plugin("store", payload)
-      .map_err(Into::into)
+  pub fn set(&self, payload: SetRequest) -> crate::Result<()> {
+    self.0.run_mobile_plugin("set", payload).map_err(Into::into)
   }
-  pub fn retrieve(&self, payload: RetrieveRequest) -> crate::Result<RetrieveResponse> {
-    self
-      .0
-      .run_mobile_plugin("retrieve", payload)
-      .map_err(Into::into)
+  pub fn get(&self, payload: GetRequest) -> crate::Result<GetResponse> {
+    self.0.run_mobile_plugin("get", payload).map_err(Into::into)
   }
   pub fn remove(&self, payload: RemoveRequest) -> crate::Result<()> {
     self

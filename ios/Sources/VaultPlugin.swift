@@ -7,8 +7,8 @@ class PingArgs: Decodable {
   let value: String?
 }
 
-class ExamplePlugin: Plugin {
-  @objc public func ping(_ invoke: Invoke) throws {
+class VaultPlugin: Plugin {
+  @objc public func set(_ invoke: Invoke) throws {
     let args = try invoke.parseArgs(PingArgs.self)
     invoke.resolve(["value": args.value ?? ""])
   }
@@ -16,5 +16,5 @@ class ExamplePlugin: Plugin {
 
 @_cdecl("init_plugin_vault")
 func initPlugin() -> Plugin {
-  return ExamplePlugin()
+  return VaultPlugin()
 }

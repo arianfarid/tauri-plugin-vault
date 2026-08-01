@@ -2,19 +2,19 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, Default, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
-pub struct StoreRequest {
+pub struct SetRequest {
   pub key: Option<String>,
 }
 
 #[derive(Debug, Clone, Default, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
-pub struct RetrieveRequest {
+pub struct GetRequest {
   pub key: Option<String>,
 }
 
 #[derive(Debug, Clone, Default, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
-pub struct RetrieveResponse {
+pub struct GetResponse {
   pub value: Option<String>,
 }
 

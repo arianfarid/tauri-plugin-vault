@@ -5,16 +5,13 @@ use crate::Result;
 use crate::VaultExt;
 
 #[command]
-pub(crate) async fn store<R: Runtime>(app: AppHandle<R>, payload: StoreRequest) -> Result<()> {
-  app.vault().store(payload)
+pub(crate) async fn set<R: Runtime>(app: AppHandle<R>, payload: SetReqest) -> Result<()> {
+  app.vault().set(payload)
 }
 
 #[command]
-pub(crate) async fn retrieve<R: Runtime>(
-  app: AppHandle<R>,
-  payload: RetrieveRequest,
-) -> Result<RetrieveResponse> {
-  app.vault().retrieve(payload)
+pub(crate) async fn get<R: Runtime>(app: AppHandle<R>, payload: GetRequest) -> Result<GetResponse> {
+  app.vault().get(payload)
 }
 
 #[command]

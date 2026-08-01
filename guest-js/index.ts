@@ -13,8 +13,8 @@ export interface VaultRequest {
  * @param vaultRequest VaultRequest
  * @returns
  */
-export async function store(vaultRequest: VaultRequest): Promise<void> {
-  return await invoke<void>('plugin:vault|store', {
+export async function set(vaultRequest: VaultRequest): Promise<void> {
+  return await invoke<void>('plugin:vault|set', {
     payload: {
       ...vaultRequest,
     },
@@ -23,19 +23,22 @@ export async function store(vaultRequest: VaultRequest): Promise<void> {
 
 /**
  * Retrieves value from native keystore.
+ *
+ * @param key VaultKey a key (string) used to retrieve data.
  */
-export async function retrieve(key: VaultKey): Promise<string | null> {
-  return await invoke<string | null>('plugin:vault|retrieve', {
+export async function get(key: VaultKey): Promise<string | null> {
+  const { value } = await invoke<{ value: string | null }>('plugin:vault|get', {
     payload: {
       key,
     },
   })
+  return value
 }
 
 /**
- * Retrieves value from native keystore.
+ * Removes value from native keystore.
  *
- * @param key VaultKey a key (string) used to retreive data.
+ * @param key VaultKey a key (string) used to remove data.
  * @returns {Promise<void>}
  */
 export async function remove(key: VaultKey): Promise<void> {

@@ -2,7 +2,11 @@ import Foundation
 import Security
 
 final class Keychain {
-  private let service = "com.plugin.tauri-plugin-vault"
+  private let service: String
+
+  init(service: String = "com.plugin.tauri-plugin-vault") {
+    self.service = service
+  }
 
   func set(key: String, value: String) throws {
     guard let data = value.data(using: .utf8) else {
